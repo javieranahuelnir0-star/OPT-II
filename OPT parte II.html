@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.36">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>OPT 2</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="OPT parte II_files/libs/clipboard/clipboard.min.js"></script>
+<script src="OPT parte II_files/libs/quarto-html/quarto.js" type="module"></script>
+<script src="OPT parte II_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="OPT parte II_files/libs/quarto-html/popper.min.js"></script>
+<script src="OPT parte II_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="OPT parte II_files/libs/quarto-html/anchor.min.js"></script>
+<link href="OPT parte II_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="OPT parte II_files/libs/quarto-html/quarto-syntax-highlighting-845c23b38eaddc0f92fda52bfe77a8c8.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="OPT parte II_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="OPT parte II_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="OPT parte II_files/libs/bootstrap/bootstrap-efbb37e9afcc02144ebbc7afd12a776f.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body class="fullcontent quarto-light">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">OPT 2</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Base de datos </span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(haven)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Adjuntando el paquete: 'dplyr'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:stats':
+
+    filter, lag</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:base':
+
+    intersect, setdiff, setequal, union</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">#setwd("C:/Users/Eliezer/Desktop/input")</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="fu">url</span>(<span class="st">"https://dataverse.harvard.edu/api/access/datafile/7245118"</span>)) <span class="co">#Cargar base de datos</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>base <span class="ot">&lt;-</span> elsoc_long_2016_2022<span class="fl">.2</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(base)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(base)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<section id="la-educación-cívica" class="level2">
+<h2 class="anchored" data-anchor-id="la-educación-cívica">La educación cívica</h2>
+<p>La educación cívica ha sido comprendida como un conjunto de conocimientos, habilidades y disposiciones orientadas a la formación de ciudadanos capaces de participar de manera informada y activa en la vida democrática. En este ámbito, no solo implica la adquisión de información sobre contenidos de instituciones políticas participantes dentro de nuestro país, sino que también el desarrollo de actitudes vinculadas al compromiso cívico y la participación política.</p>
+<p>En el caso de nuestro país, la importancia de la educación cívica ha sido reconocida institucionalmente mediante La Ley 20.911, promulgada en el 2016, durante el gobierno de Michelle Bachelet, la cual establece la implementación obligatoria de planes de formación ciudadana en los establecimientos educacionales . Esta ley cuenta con 9 objetivos principales, que sin embargo, 3 serán relevantes en esta investigación. Los cuales indican que La Ley 20.911 tiene como propositó:</p>
+<p>“Fomentar en los estudiantes el ejercico de una ciudadanía crítica, responsable, respetuosa, abierta y creativa”; “Promover el conocimiento, comprensión y análisis del Estado de Derecho y de la institucionalidad local, regional y nacional, y la formación de virtudes cívicas en los estudiantes”; “Fomentar la participación de los estudiantes en temas de interés público” (<a href="https://javieranahuelnir0-star.github.io/OPT.E-C/#ref-ley20.911"><em>Ley 20.911</em>, n.d.</a>)</p>
+<section id="parte-ii" class="level3">
+<h3 class="anchored" data-anchor-id="parte-ii">Parte II</h3>
+<p>Por lo cual, para abordar la relación entre educación cívica y comportamiento político en jóvenes en Chile, se seleccionaron variables provenientes de la base de datos del COES, debido a que esta nos permite aproximarnos empíricamente a las dimensiones centrales del fenómeno a estudiar.</p>
+<section id="edad" class="level4">
+<h4 class="anchored" data-anchor-id="edad">Edad</h4>
+<p>En primer lugar, se escogió la variable de edad, con un nombre dentro de la base de m0_edad, recodifidada como: edad. Con un nivel de medición de razón, y un (sinonimo de fraseo) edad del entrevistado.</p>
+<p>Esta variable mide la edad de los individuos en años, permitiendo identificar diferencias dentro del grupo de jóvenes. Resultando fundamental para delimitar la población de estudio, de 18 a 29 años, y así poder analizar posibles variaciones en el comportamiento político dentro de este grupo etario.</p>
+</section>
+<section id="interés-en-la-política" class="level4">
+<h4 class="anchored" data-anchor-id="interés-en-la-política">Interés en la política</h4>
+<p>Por otro lado, se eligió tambien el interés en la política presentado en la base como c13, la cual fue recodificada como: interes_politica. Con un nivel de medición de intervalo.</p>
+<p>También, representa y refleja el nivel de interés subjetivo de los individuos en temas políticos, constituyendo una aproximación a la educación cívica. Evaluando asi, en qué medida el interés político, como dimensión de la formación cívica, se vincula con diferentes formas de participación política.</p>
+</section>
+<section id="nivel-educacional" class="level4">
+<h4 class="anchored" data-anchor-id="nivel-educacional">Nivel educacional</h4>
+<p>Además, se hará uso del nivel educacional, una variable clave dentro de la investigación. La cual es presentada en la base como m01, recodificada como educacion, con un nivel de medición ordinal. Representando el nivel educativo alcanzado por los individuos, el cual se utiliza como una aproximación indirecta a la formación cívica. Teniendo en consideración, como se menciono en la parte I, que al ser una base de datos que contenga los datos desde el año que se instauro la ley de educación civica, transforma sus datos más interesantes. Lo que nos permite analizar cómo el nivel educacional incide en las disposiciones y práticas de participación política, en coherencia con la hipótesis de que una mayor formación favorece el involucramiento cívico.</p>
+</section>
+<section id="participación-política" class="level4">
+<h4 class="anchored" data-anchor-id="participación-política">Participación política</h4>
+<p>Finalmente, se hará uso de la variable c22, recodificada como participación, con un nivel de medición ordinal. Representando la medición de la frecuencia con la que los individuos participan dentro de la política. Por otro lado, se considera clave como una variable dependiente, ya que nos permite observar el comportamiento político juvenil más allá de mecanismos tradicionales como el voto, en línea con el enfoque de la investigación.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>datos <span class="ot">&lt;-</span> base <span class="sc">%&gt;%</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">interes_politica =</span> c13,</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">edad =</span> m0_edad,</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">educacion =</span> m01,</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">participacion =</span> c22</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(edad, interes_politica, educacion, participacion)</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="co">#limpiar valores </span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>datos <span class="ot">&lt;-</span> datos <span class="sc">%&gt;%</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">interes_politica =</span> <span class="fu">ifelse</span>(interes_politica <span class="sc">&lt;</span> <span class="dv">0</span>, <span class="cn">NA</span>, interes_politica),</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">educacion =</span> <span class="fu">ifelse</span>(educacion <span class="sc">&lt;</span> <span class="dv">0</span>, <span class="cn">NA</span>, educacion),</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">participacion =</span> <span class="fu">ifelse</span>(participacion <span class="sc">&lt;</span> <span class="dv">0</span>, <span class="cn">NA</span>, participacion)</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a><span class="co">#seleccion de edad de jovenes</span></span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>datos <span class="ot">&lt;-</span> datos <span class="sc">%&gt;%</span></span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(edad <span class="sc">&gt;=</span> <span class="dv">18</span> <span class="sc">&amp;</span> edad <span class="sc">&lt;=</span> <span class="dv">29</span>)</span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a><span class="co">#convertir variables categoricas</span></span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>datos<span class="sc">$</span>educacion <span class="ot">&lt;-</span> <span class="fu">as_factor</span>(datos<span class="sc">$</span>educacion)</span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>datos<span class="sc">$</span>participacion <span class="ot">&lt;-</span> <span class="fu">as_factor</span>(datos<span class="sc">$</span>participacion)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+</section>
+<section id="tablas" class="level3">
+<h3 class="anchored" data-anchor-id="tablas">Tablas</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">#tablas</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(datos<span class="sc">$</span>edad)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+  18.00   23.00   25.00   24.97   27.00   29.00 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(datos<span class="sc">$</span>interes_politica)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
+  1.000   1.000   2.000   2.225   3.000   5.000       3 </code></pre>
+</div>
+</div>
+<p>La presente tabla de edad, nos presenta un rango de 18 a 29 años, lo cual nos confirma la correcta delimitación de la población de estudio correspondiente a jovenes. En donde la media se sitúa en 24.97 años, mientras que la mediana alcanza los 25 años, lo que nos indica una distribución relativamente equilibrada dentro del rango etario analizado. Asimismo, los cuartiles nos muestra que el 50% de los casos se concentran entre los 23 y 27 años, lo que sugiere una mayor representación de jóvenes en etapas intermedias del ciclo juvenil. En este sentido, la distribución de la edad permite analizar el comportamiento político dentro de un grupo etario homogéneo, evitando sesgos asociados a diferencias generacionales mucho más amplias.</p>
+<p>Por otro lado, la variable de interés en la política presenta valores entre 1 y 5. En donde 1 es bajo y 5 alto. Con una media de 2.225 y una mediana de 2, lo que indica un nivel bajo de interés político en la población joven analizada. Además, los cuartiles nos muestran que al menos el 50% de los encuestados se concentra entre los valores 1 y 3, lo que refuerza la idea de un predominio de niveles bajos a moderados de interés en los asuntos políticos.</p>
+<p>En términos de la investigación, esto nos sugiere que, pese a la relevancia que se le atribuye a la educación cívica, el interés político entre los jóvenes no es particularmente alto, lo que podría influir en sus niveles de participación política efectiva.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(datos<span class="sc">$</span>educacion)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+  1   2   3   4   5   6   7   8   9  10 
+  3  38  63 220 658 232 298 589 372  21 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">prop.table</span>(<span class="fu">table</span>(datos<span class="sc">$</span>educacion))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+          1           2           3           4           5           6 
+0.001202887 0.015236568 0.025260626 0.088211708 0.263833200 0.093023256 
+          7           8           9          10 
+0.119486768 0.236166800 0.149157979 0.008420209 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(datos<span class="sc">$</span>participacion)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+  1   2   3   4   5 
+760 312 486 215  72 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">prop.table</span>(<span class="fu">table</span>(datos<span class="sc">$</span>participacion))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+         1          2          3          4          5 
+0.41192412 0.16910569 0.26341463 0.11653117 0.03902439 </code></pre>
+</div>
+</div>
+<p>En el sentido de variables categoricas, la distribución del nivel educacional muestra una concentración en las categorías intermedias de la escala, particularmente en los valores 5, 8 y 9, lo que indica que una proporción importante de los encuestados se sitúa en niveles educativos medios y medios-altos. En contraste, las categorías más bajas presentan una menor frecuencia, lo que sugiere una baja presencia de individuos con niveles educacionales muy bajos dentro de la muestra. Asimismo, los niveles más altos también aparecen con menor frecuencia, lo que evidencia que una parte importante de los jóvenes aún no alcanza los niveles educativos más avanzados. Esto, en relación a términos analíticos, esta distribución resulta coherente con el rango etario estudiado, debido a que muchos jovenes se encuentran en proceso de formación o recientemente han accedido a niveles educativos que puedan favorecer el desarrollo de habilidades críticas y una mayor disposición a la participación política</p>
+<p>Por otro lado, la participación política, presenta una clara concentración en los niveles más bajos de la escala. En particular, la categoría 1 agrupa aproximadamente un 41% de los casos, lo que indica que una proporción importante de los jóvenes presenta niveles muy bajos de participación política. Además, las categorías intermedias de 2 y 3 concentran una parte relevante de la distribución, mientras que los niveles más altos de participación 4 y 5, presentan una menor frecuencia.</p>
+<p>En términos de analisis, estos resultados evidencian que la participación política juvenil se caracteriza principalmente por niveles bajos o moderados, lo cual nos sugiere una limitada implicación activa en asuntos políticos, lo que resulta particular y relevante en el contexto de la investigación, ya que indica que, pese a la existencia de ciertas disposiciones hacia la política, estas no necesariamente se traducen en prácticas de participación política.</p>
+</section>
+<section id="gráficos" class="level3">
+<h3 class="anchored" data-anchor-id="gráficos">Gráficos</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(datos, <span class="fu">aes</span>(<span class="at">x =</span> interes_politica)) <span class="sc">+</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`stat_bin()` using `bins = 30`. Pick better value `binwidth`.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 3 rows containing non-finite outside the scale range
+(`stat_bin()`).</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="OPT-parte-II_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>El gráfico de distribución del interés en la política muestra una mayor concentración de casos en los niveles más bajos de la escala, particularmente en 1, 2 y 3, lo que nos indica que, dentro de la población joven analizada, predomina un bajo a moderado interés en los asuntos políticos. Asimismo, se observa una disminución progresiva en la frecuencia de casos a medida que aumenta el nivel de interés en los asuntos políticos.</p>
+<p>En términos del problema de investigación, estos resultados evidencian que, a pesar de la existencia de políticas de formación cívica, como la ley 20.911, el interés político en jóvenes no alcanzan niveles elevados de manera generalizada, lo que podría incidir en su bajo indice de interés en participación.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(datos, <span class="fu">aes</span>(<span class="at">x =</span> participacion)) <span class="sc">+</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="OPT-parte-II_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Por otro lado, el gráfico de participación política evidencia una clara concentración de los casos en los niveles más bajos de la escala. En particular, la categoría 1 presenta la mayor frecuencia, lo que indica que una proporción importante de los jóvenes reporta bajos niveles de participación política. En términos de analisis y en relación a la investigación, este patrón de que a medida que aumentan los niveles de la escala, la frecuencia de casos disminuye progresivamente, nos indica que la participación se caracteriza principalmente por niveles bajos o moderados, lo que resulta relevante para la investigación, ya que sugiere que las disposiciones hacia la política no necesariamente se traducen en prácticas de participación efectiva.</p>
+</section>
+<section id="propuesta-de-índice" class="level3">
+<h3 class="anchored" data-anchor-id="propuesta-de-índice">Propuesta de índice</h3>
+<p>Para aproximarnos empíricamente al concepto de educación cívica, se propone la construcción de un índice que permita captar el nivel de involucramiento de los individuos en los asuntos públicos. Este índice, se orienta a medir dimensiones subjetivas vinculadas al interés y la disposición de jovenes hacia la política. Si bien la base de datos no permite captar directamente todas las dimensiones de la educación cívica, el interés en la política constituye una aproximación relevante, en tanto refleja disposiciones subjetivas que pueden influir en la participación política. Ya, en esta etapa, se considera las limitaciones de la base de datos, el índice se basa principalmente en la variable interés en la política, la cual permite captar el grado de atención y motivación de los individuos hacia los asuntos públicos, constituyendo una dimensión central de la educación cívica.</p>
+<p>Por lo que, el índice se construira con variables de participación en manifestaciones, discusiones, marchas, interés por la política. Entre otros.</p>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
