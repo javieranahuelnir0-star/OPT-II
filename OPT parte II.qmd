@@ -1,0 +1,130 @@
+---
+title: "OPT 2"
+format: html
+editor: visual
+---
+
+```{r}
+#| results: 'hide'
+#Base de datos 
+
+library(haven)
+library(ggplot2)
+library(dplyr)
+
+#setwd("C:/Users/Eliezer/Desktop/input")
+load(url("https://dataverse.harvard.edu/api/access/datafile/7245118")) #Cargar base de datos
+base <- elsoc_long_2016_2022.2
+names(base)
+glimpse(base)
+```
+
+## La educación cívica
+
+La educación cívica ha sido comprendida como un conjunto de conocimientos, habilidades y disposiciones orientadas a la formación de ciudadanos capaces de participar de manera informada y activa en la vida democrática. En este ámbito, no solo implica la adquisión de información sobre contenidos de instituciones políticas participantes dentro de nuestro país, sino que también el desarrollo de actitudes vinculadas al compromiso cívico y la participación política.
+
+En el caso de nuestro país, la importancia de la educación cívica ha sido reconocida institucionalmente mediante La Ley 20.911, promulgada en el 2016, durante el gobierno de Michelle Bachelet, la cual establece la implementación obligatoria de planes de formación ciudadana en los establecimientos educacionales . Esta ley cuenta con 9 objetivos principales, que sin embargo, 3 serán relevantes en esta investigación. Los cuales indican que La Ley 20.911 tiene como propositó:
+
+“Fomentar en los estudiantes el ejercico de una ciudadanía crítica, responsable, respetuosa, abierta y creativa”; “Promover el conocimiento, comprensión y análisis del Estado de Derecho y de la institucionalidad local, regional y nacional, y la formación de virtudes cívicas en los estudiantes”; “Fomentar la participación de los estudiantes en temas de interés público” ([*Ley 20.911*, n.d.](https://javieranahuelnir0-star.github.io/OPT.E-C/#ref-ley20.911))
+
+### Parte II
+
+Por lo cual, para abordar la relación entre educación cívica y comportamiento político en jóvenes en Chile, se seleccionaron variables provenientes de la base de datos del COES, debido a que esta nos permite aproximarnos empíricamente a las dimensiones centrales del fenómeno a estudiar.
+
+#### Edad
+
+En primer lugar, se escogió la variable de edad, con un nombre dentro de la base de m0_edad, recodifidada como: edad. Con un nivel de medición de razón, y un (sinonimo de fraseo) edad del entrevistado.
+
+Esta variable mide la edad de los individuos en años, permitiendo identificar diferencias dentro del grupo de jóvenes. Resultando fundamental para delimitar la población de estudio, de 18 a 29 años, y así poder analizar posibles variaciones en el comportamiento político dentro de este grupo etario.
+
+#### Interés en la política
+
+Por otro lado, se eligió tambien el interés en la política presentado en la base como c13, la cual fue recodificada como: interes_politica. Con un nivel de medición de intervalo.
+
+También, representa y refleja el nivel de interés subjetivo de los individuos en temas políticos, constituyendo una aproximación a la educación cívica. Evaluando asi, en qué medida el interés político, como dimensión de la formación cívica, se vincula con diferentes formas de participación política.
+
+#### Nivel educacional
+
+Además, se hará uso del nivel educacional, una variable clave dentro de la investigación. La cual es presentada en la base como m01, recodificada como educacion, con un nivel de medición ordinal. Representando el nivel educativo alcanzado por los individuos, el cual se utiliza como una aproximación indirecta a la formación cívica. Teniendo en consideración, como se menciono en la parte I, que al ser una base de datos que contenga los datos desde el año que se instauro la ley de educación civica, transforma sus datos más interesantes. Lo que nos permite analizar cómo el nivel educacional incide en las disposiciones y práticas de participación política, en coherencia con la hipótesis de que una mayor formación favorece el involucramiento cívico.
+
+#### Participación política
+
+Finalmente, se hará uso de la variable c22, recodificada como participación, con un nivel de medición ordinal. Representando la medición de la frecuencia con la que los individuos participan dentro de la política. Por otro lado, se considera clave como una variable dependiente, ya que nos permite observar el comportamiento político juvenil más allá de mecanismos tradicionales como el voto, en línea con el enfoque de la investigación.
+
+```{r}
+datos <- base %>%
+  rename(
+    interes_politica = c13,
+    edad = m0_edad,
+    educacion = m01,
+    participacion = c22
+  ) %>%
+  select(edad, interes_politica, educacion, participacion)
+
+#limpiar valores 
+datos <- datos %>%
+  mutate(
+    interes_politica = ifelse(interes_politica < 0, NA, interes_politica),
+    educacion = ifelse(educacion < 0, NA, educacion),
+    participacion = ifelse(participacion < 0, NA, participacion)
+  )
+
+#seleccion de edad de jovenes
+datos <- datos %>%
+  filter(edad >= 18 & edad <= 29)
+
+#convertir variables categoricas
+datos$educacion <- as_factor(datos$educacion)
+datos$participacion <- as_factor(datos$participacion)
+```
+
+### Tablas
+
+```{r}
+#tablas
+summary(datos$edad)
+summary(datos$interes_politica)
+```
+
+La presente tabla de edad, nos presenta un rango de 18 a 29 años, lo cual nos confirma la correcta delimitación de la población de estudio correspondiente a jovenes. En donde la media se sitúa en 24.97 años, mientras que la mediana alcanza los 25 años, lo que nos indica una distribución relativamente equilibrada dentro del rango etario analizado. Asimismo, los cuartiles nos muestra que el 50% de los casos se concentran entre los 23 y 27 años, lo que sugiere una mayor representación de jóvenes en etapas intermedias del ciclo juvenil. En este sentido, la distribución de la edad permite analizar el comportamiento político dentro de un grupo etario homogéneo, evitando sesgos asociados a diferencias generacionales mucho más amplias.
+
+Por otro lado, la variable de interés en la política presenta valores entre 1 y 5. En donde 1 es bajo y 5 alto. Con una media de 2.225 y una mediana de 2, lo que indica un nivel bajo de interés político en la población joven analizada. Además, los cuartiles nos muestran que al menos el 50% de los encuestados se concentra entre los valores 1 y 3, lo que refuerza la idea de un predominio de niveles bajos a moderados de interés en los asuntos políticos.
+
+En términos de la investigación, esto nos sugiere que, pese a la relevancia que se le atribuye a la educación cívica, el interés político entre los jóvenes no es particularmente alto, lo que podría influir en sus niveles de participación política efectiva.
+
+```{r}
+table(datos$educacion)
+prop.table(table(datos$educacion))
+table(datos$participacion)
+prop.table(table(datos$participacion))
+```
+
+En el sentido de variables categoricas, la distribución del nivel educacional muestra una concentración en las categorías intermedias de la escala, particularmente en los valores 5, 8 y 9, lo que indica que una proporción importante de los encuestados se sitúa en niveles educativos medios y medios-altos. En contraste, las categorías más bajas presentan una menor frecuencia, lo que sugiere una baja presencia de individuos con niveles educacionales muy bajos dentro de la muestra. Asimismo, los niveles más altos también aparecen con menor frecuencia, lo que evidencia que una parte importante de los jóvenes aún no alcanza los niveles educativos más avanzados. Esto, en relación a términos analíticos, esta distribución resulta coherente con el rango etario estudiado, debido a que muchos jovenes se encuentran en proceso de formación o recientemente han accedido a niveles educativos que puedan favorecer el desarrollo de habilidades críticas y una mayor disposición a la participación política
+
+Por otro lado, la participación política, presenta una clara concentración en los niveles más bajos de la escala. En particular, la categoría 1 agrupa aproximadamente un 41% de los casos, lo que indica que una proporción importante de los jóvenes presenta niveles muy bajos de participación política. Además, las categorías intermedias de 2 y 3 concentran una parte relevante de la distribución, mientras que los niveles más altos de participación 4 y 5, presentan una menor frecuencia.
+
+En términos de analisis, estos resultados evidencian que la participación política juvenil se caracteriza principalmente por niveles bajos o moderados, lo cual nos sugiere una limitada implicación activa en asuntos políticos, lo que resulta particular y relevante en el contexto de la investigación, ya que indica que, pese a la existencia de ciertas disposiciones hacia la política, estas no necesariamente se traducen en prácticas de participación política.
+
+### Gráficos
+
+```{r}
+ggplot(datos, aes(x = interes_politica)) +
+  geom_histogram()
+```
+
+El gráfico de distribución del interés en la política muestra una mayor concentración de casos en los niveles más bajos de la escala, particularmente en 1, 2 y 3, lo que nos indica que, dentro de la población joven analizada, predomina un bajo a moderado interés en los asuntos políticos. Asimismo, se observa una disminución progresiva en la frecuencia de casos a medida que aumenta el nivel de interés en los asuntos políticos.
+
+En términos del problema de investigación, estos resultados evidencian que, a pesar de la existencia de políticas de formación cívica, como la ley 20.911, el interés político en jóvenes no alcanzan niveles elevados de manera generalizada, lo que podría incidir en su bajo indice de interés en participación.
+
+```{r}
+ggplot(datos, aes(x = participacion)) +
+  geom_bar()
+```
+
+Por otro lado, el gráfico de participación política evidencia una clara concentración de los casos en los niveles más bajos de la escala. En particular, la categoría 1 presenta la mayor frecuencia, lo que indica que una proporción importante de los jóvenes reporta bajos niveles de participación política. En términos de analisis y en relación a la investigación, este patrón de que a medida que aumentan los niveles de la escala, la frecuencia de casos disminuye progresivamente, nos indica que la participación se caracteriza principalmente por niveles bajos o moderados, lo que resulta relevante para la investigación, ya que sugiere que las disposiciones hacia la política no necesariamente se traducen en prácticas de participación efectiva.
+
+### Propuesta de índice
+
+Para aproximarnos empíricamente al concepto de educación cívica, se propone la construcción de un índice que permita captar el nivel de involucramiento de los individuos en los asuntos públicos. Este índice, se orienta a medir dimensiones subjetivas vinculadas al interés y la disposición de jovenes hacia la política. Si bien la base de datos no permite captar directamente todas las dimensiones de la educación cívica, el interés en la política constituye una aproximación relevante, en tanto refleja disposiciones subjetivas que pueden influir en la participación política. Ya, en esta etapa, se considera las limitaciones de la base de datos, el índice se basa principalmente en la variable interés en la política, la cual permite captar el grado de atención y motivación de los individuos hacia los asuntos públicos, constituyendo una dimensión central de la educación cívica.
+
+Por lo que, el índice se construira con variables de participación en manifestaciones, discusiones, marchas, interés por la política. Entre otros.
